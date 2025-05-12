@@ -54,7 +54,7 @@ The bot uses the following indicators calculated on-the-fly:
 ## 🎯 Trading Strategy
 The trading logic dynamically manages:
 - **Risk Management:** ATR-based stop-loss & take-profit levels, adaptive sizing, and volatility regime adjustments.
-- **Entry Conditions:** High-confidence trade signals (minimum 70% probability, clear directional margin).
+- **Entry Conditions:** High-confidence trade signals (minimum 95% probability, clear directional margin).
 - **Exit Logic:** Automatic exits on hitting SL/TP levels, plus dynamic trailing stops for profit locking.
 
 ---
