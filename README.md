@@ -95,18 +95,4 @@ All code is for AI/ML educational use.**
 4. Review terminal logs for every step, action, position, and PnL.
 5. Tune, retrain, and push model intelligence further.
 
----
-
-## 👥 Contributors
-
-- Project: [Your Name]
-- AI Model: Zephyr, HuggingFace, DeepSpeed, OpenAI (community)
-- Trading logic/infra: You
-
----
-
-## 📫 Contact
-
-- OpenAI GPT-4 for code and troubleshooting.
-- You for custom research/development.
 
