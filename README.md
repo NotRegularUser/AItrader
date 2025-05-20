@@ -1,4 +1,4 @@
-# High risk AI Futures Trader (HyenaDNA)
+# High risk/reward AI Futures Trader (HyenaDNA)
 
 **Pure research framework for high-performance, fully autonomous trading AI—using only HyenaDNA for sequence modeling.  
 All code is for experimental, educational use. No live funds/accounts. :) **
