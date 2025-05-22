@@ -79,7 +79,7 @@ All code is for experimental, educational use. No live funds/accounts. :)
 
 ## 🛠️ Quickstart
 
-1. Install Python 3.11+, PyTorch 2.2+, `transformers`, `deepspeed`.
+1. Install Python 3.11+, PyTorch 2.7+, `transformers`, `deepspeed`.
 2. Configure all environment/data/model params in `config.py`.
 3. Run `python train.py` for full simulation and model training.
 4. Review logs and checkpoints in `/checkpoints` for performance/traceability.
