@@ -50,7 +50,7 @@ $\delta_t = r_t + \gamma V(s_{t+1})(1 - \text{done}_t) - V(s_t)$
 
 GAE recursive formula:
 
-![GAE recursive formula](https://miro.medium.com/v2/resize:fit:1084/1*3ZUp_BW-YpCXyL6zJ_ow7A.png)
+![GAE recursive formula](https://miro.medium.com/v2/resize:fit:640/format:webp/1*3ZUp_BW-YpCXyL6zJ_ow7A.png)
 
 ---
 
