@@ -50,7 +50,7 @@ $\delta_t = r_t + \gamma V(s_{t+1})(1 - \text{done}_t) - V(s_t)$
 
 GAE recursive formula:
 
-$A_t^{GAE} = \delta_t + \gamma \lambda (1 - \text{done}_t) A_{t+1}^{GAE}$
+$A_t^{\mathrm{GAE}} = \delta_t + \gamma \lambda (1 - \text{done}_t) A_{t+1}^{\mathrm{GAE}}$
 
 ---
 
