@@ -10,15 +10,12 @@ This document presents a sophisticated framework for developing an autonomous tr
 
 ### HyenaDNA for Financial Markets
 
-Financial markets generate long sequences of data requiring models that can handle extensive contexts efficiently. Traditional Transformer-based models suffer from quadratic scaling complexity \(O(L^2)\), limiting their practical use. **HyenaDNA** overcomes this limitation through its innovative convolutional architecture, achieving sub-quadratic complexity \(O(L \log L)\), enabling the processing of sequences up to one million tokens. This drastically increases computational efficiency and allows for high-fidelity, raw data-driven feature extraction.
+Financial markets generate long sequences of data requiring models that can handle extensive contexts efficiently. Traditional Transformer-based models suffer from quadratic scaling complexity $O(L^2)$, limiting their practical use. **HyenaDNA** overcomes this limitation through its innovative convolutional architecture, achieving sub-quadratic complexity $O(L \log L)$, enabling the processing of sequences up to one million tokens. This drastically increases computational efficiency and allows for high-fidelity, raw data-driven feature extraction.
 
-#### Computational Complexity:
+**Computational Complexity:**  
+$O(L \log L)$
 
-$$
-O(L \log L)
-$$
-
-#### Efficiency Gain:
+**Efficiency Gain:**
 - Up to **160x faster** than Transformers at 1M tokens on RTX 5070 GPU.
 
 HyenaDNA is inherently suited to financial data due to its capacity to maintain fine-grained, single-tick resolution while simultaneously capturing macroeconomic trends, analogous to genomic SNP tracking in biology.
@@ -29,38 +26,31 @@ HyenaDNA is inherently suited to financial data due to its capacity to maintain 
 
 For realistic, sequential decision-making scenarios, we adopt an **on-policy** reinforcement learning strategy to maintain causality and market realism. Specifically, **Advantage Actor-Critic (A2C)** is employed due to its synchronous updates and ability to leverage current policy data exclusively.
 
-#### A2C Algorithm Components:
-- **Actor Network**: Decides action probabilities given the current state.
-- **Critic Network**: Estimates the expected cumulative future reward from the current state.
+**A2C Algorithm Components:**
+- **Actor Network:** Decides action probabilities given the current state.
+- **Critic Network:** Estimates the expected cumulative future reward from the current state.
 
-#### Advantage Estimation:
-The advantage function quantifies action effectiveness:
-
-$$
-A(s, a) = Q(s, a) - V(s)
-$$
+**Advantage Estimation:**  
+The advantage function quantifies action effectiveness:  
+$A(s, a) = Q(s, a) - V(s)$
 
 ---
 
 ### Generalized Advantage Estimation (GAE)
 
-To stabilize and enhance learning, we utilize **Generalized Advantage Estimation (GAE)**, balancing bias and variance through a parameter \(\lambda\):
+To stabilize and enhance learning, we utilize **Generalized Advantage Estimation (GAE)**, balancing bias and variance through a parameter $\lambda$:
 
-- \(\lambda = 0\): Low variance, high bias.
-- \(\lambda = 1\): High variance, unbiased Monte Carlo return.
-- Optimal balance (\(\lambda = 0.95\)) ensures stable learning in noisy financial environments.
+- $\lambda = 0$: Low variance, high bias.
+- $\lambda = 1$: High variance, unbiased Monte Carlo return.
+- Optimal balance ($\lambda = 0.95$) ensures stable learning in noisy financial environments.
 
-GAE calculation for each step \(t\):
+GAE calculation for each step $t$:
 
-$$
-\delta_t = r_t + \gamma V(s_{t+1})(1 - \text{done}_t) - V(s_t)
-$$
+$\delta_t = r_t + \gamma V(s_{t+1})(1 - \text{done}_t) - V(s_t)$
 
 GAE recursive formula:
 
-$$
-A_t^{GAE} = \delta_t + \gamma \lambda (1 - \text{done}_t) A_{t+1}^{GAE}
-$$
+$A_t^{GAE} = \delta_t + \gamma \lambda (1 - \text{done}_t) A_{t+1}^{GAE}$
 
 ---
 
@@ -68,11 +58,11 @@ $$
 
 ### Observation Space
 
-Structured as a 2D tensor of shape \((\text{sequence\_length}, \text{num\_features})\), containing:
+Structured as a 2D tensor of shape `(sequence_length, num_features)`, containing:
 
-- **Market Features (OHLCV)**: Raw data, allowing model-based feature discovery.
-- **Technical Indicators**: RSI, MACD, Bollinger Bands, ATR, for accelerated initial convergence.
-- **Portfolio State Features**: Equity, position status (-1: short, 0: flat, 1: long), unrealized PnL, steps in position.
+- **Market Features (OHLCV):** Raw data, allowing model-based feature discovery.
+- **Technical Indicators:** RSI, MACD, Bollinger Bands, ATR, for accelerated initial convergence.
+- **Portfolio State Features:** Equity, position status (-1: short, 0: flat, 1: long), unrealized PnL, steps in position.
 
 | Feature              | Type      | Normalization    |
 |----------------------|-----------|------------------|
@@ -93,9 +83,9 @@ Structured as a 2D tensor of shape \((\text{sequence\_length}, \text{num\_featur
 
 Discrete and contextually intelligent action space to simplify agent decisions:
 
-- **Action 0 (HOLD)**: No trade executed.
-- **Action 1 (GO\_LONG)**: Opens or maintains a long position.
-- **Action 2 (GO\_SHORT/CLOSE)**: Opens short or closes existing long position.
+- **Action 0 (HOLD):** No trade executed.
+- **Action 1 (GO_LONG):** Opens or maintains a long position.
+- **Action 2 (GO_SHORT/CLOSE):** Opens short or closes existing long position.
 
 ---
 
@@ -103,14 +93,12 @@ Discrete and contextually intelligent action space to simplify agent decisions:
 
 Composite, dense reward at each timestep guiding towards risk-adjusted profitability:
 
-$$
-\text{Reward}_t = \Delta \text{SharpeRatio}_t - \text{TransactionCost}_t + \text{HoldingReward}_t
-$$
+$Reward_t = \Delta \text{SharpeRatio}_t - \text{TransactionCost}_t + \text{HoldingReward}_t$
 
-#### Components:
-- **Differential Sharpe Ratio**: Encourages improvements in risk-adjusted returns per step.
-- **Transaction Cost Penalty**: Discourages unnecessary trades.
-- **Holding Reward/Penalty**: Encourages cutting losses and running profits based on unrealized PnL.
+**Components:**
+- **Differential Sharpe Ratio:** Encourages improvements in risk-adjusted returns per step.
+- **Transaction Cost Penalty:** Discourages unnecessary trades.
+- **Holding Reward/Penalty:** Encourages cutting losses and running profits based on unrealized PnL.
 
 ---
 
@@ -118,29 +106,23 @@ $$
 
 ### Sequential A2C Training Loop
 
-#### GPU Optimization:
+**GPU Optimization:**  
 - Utilize PyTorch's `torch.compile()` for GPU kernel fusion and efficiency.
 
-#### Loss Computation:
-- **Actor Loss**: $-\text{mean}(\log\pi(a|s) \times A)$
-- **Critic Loss**: Smooth L1 loss between predicted and actual returns.
-- **Entropy Bonus**: Encourage exploration, avoid premature convergence.
+**Loss Computation:**
+- **Actor Loss:** $-\text{mean}(\log\pi(a|s) \times A)$
+- **Critic Loss:** Smooth L1 loss between predicted and actual returns.
+- **Entropy Bonus:** Encourage exploration, avoid premature convergence.
 
-Combined Loss:
-
-$$
-L_{\text{total}} = L_{\text{actor}} + c_1 L_{\text{critic}} - c_2 L_{\text{entropy}}
-$$
+Combined Loss:  
+$L_\text{total} = L_\text{actor} + c_1 L_\text{critic} - c_2 L_\text{entropy}$
 
 ---
 
 ## Model Architecture: HyenaActorCritic
 
-#### Forward Pass:
-
-$$
-\text{logits}, \text{value} = \text{model}(\text{state})
-$$
+**Forward Pass:**  
+$\text{logits}, \text{value} = \text{model}(\text{state})$
 
 ## References
 
@@ -155,4 +137,4 @@ $$
 
 ## Conclusion
 
-This framework leverages advanced sequence modeling (HyenaDNA) and stable reinforcement learning (A2C with GAE) to create a robust, autonomous trading agent. Through meticulously designed observation and action spaces, along with a nuanced reward function, it achieves realistic and profitable trading behaviors suitable for extensive financial market applications.
+This framework leverages advanced sequence modeling (HyenaDNA) and stable reinforcement learning (A2C with GAE) to create a robust, autonomous trading agent. Through meticulously designed observation and action spaces, along with a nuanced reward function, it achieves realistic an
