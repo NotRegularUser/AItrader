@@ -10,7 +10,7 @@ This document presents a sophisticated framework for developing an autonomous tr
 
 ### HyenaDNA for Financial Markets
 
-Financial markets generate long sequences of data requiring models that can handle extensive contexts efficiently. Traditional Transformer-based models suffer from quadratic scaling complexity $O(L^2)$, limiting their practical use. **HyenaDNA** overcomes this limitation through its innovative convolutional architecture, achieving sub-quadratic complexity $O(L \log L)$, enabling the processing of sequences up to one million tokens. This drastically increases computational efficiency and allows for high-fidelity, raw data-driven feature extraction.
+Financial markets generate long sequences of data requiring models that can handle extensive contexts efficiently. Traditional Transformer-based models suffer from quadratic scaling complexity $O(L^2)$, limiting their practical use. **HyenaDNA** overcomes this limitation through its innovative convolutional architecture, achieving sub-quadratic complexity $O(L log L)$, enabling the processing of sequences up to one million tokens. This drastically increases computational efficiency and allows for high-fidelity, raw data-driven feature extraction.
 
 **Computational Complexity:**  
 $O(L \log L)$
