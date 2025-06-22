@@ -104,7 +104,7 @@ Discrete and contextually intelligent action space to simplify agent decisions:
 Composite, dense reward at each timestep guiding towards risk-adjusted profitability:
 
 $$
-Reward_t = \Delta \text{SharpeRatio}_t - \text{TransactionCost}_t + \text{HoldingReward}_t
+\text{Reward}_t = \Delta \text{SharpeRatio}_t - \text{TransactionCost}_t + \text{HoldingReward}_t
 $$
 
 #### Components:
