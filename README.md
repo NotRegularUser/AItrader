@@ -137,4 +137,4 @@ $\text{logits}, \text{value} = \text{model}(\text{state})$
 
 ## Conclusion
 
-This framework leverages advanced sequence modeling (HyenaDNA) and stable reinforcement learning (A2C with GAE) to create a robust, autonomous trading agent. Through meticulously designed observation and action spaces, along with a nuanced reward function, it achieves realistic and adoptive training results.
+This framework leverages advanced sequence modeling (HyenaDNA) and stable reinforcement learning (A2C with GAE) to create a robust, autonomous trading agent. Through meticulously designed observation and action spaces, along with a nuanced reward function, it achieves realistic and adaptive training results.
