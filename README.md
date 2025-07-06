@@ -1,4 +1,4 @@
-# A Research-Grade Framework for a Long-Context, Autonomous Trading Agent
+# A Framework for a Long-Context, Autonomous Trading Agent
 
 ## Overview
 
