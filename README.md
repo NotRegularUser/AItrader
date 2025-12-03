@@ -142,43 +142,14 @@ The agent learns its own trading strategies through self-supervision rather than
 
 ---
 
-## Installation
+## Requirements
 
-```bash
-# Clone repository
-git clone https://github.com/yourusername/MambaSSMTrader.git
-cd MambaSSMTrader
-
-# Create environment
-conda create -n mamba-trader python=3.10
-conda activate mamba-trader
-
-# Install dependencies
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
-pip install transformers mamba-ssm pandas numpy ta requests
-
-# Optional: CUDA-optimized kernels
-pip install causal-conv1d>=1.1.0
-```
-
-### Requirements
 - Python 3.10+
 - PyTorch 2.0+ (CUDA 12.1 recommended)
 - 12GB+ VRAM (RTX 3080/4070/5070 or better)
 - Binance API keys (optional, for live data)
 
 ---
-
-## Quick Start
-
-```python
-# Set API keys (optional)
-export BINANCE_API_KEY="your_key"
-export BINANCE_SECRET="your_secret"
-
-# Run training
-python train.py
-```
 
 ### Training Phases
 
@@ -307,8 +278,8 @@ f_safe = min(f*, max_dd / expected_loss)
 
 ## Future Roadmap
 
-- [ ] PPO algorithm (more stable than A2C)
-- [ ] Multi-timeframe hierarchical input (1m, 5m, 1h, 4h)
+- [+] PPO algorithm (more stable than A2C)
+- [+] Multi-timeframe hierarchical input (1m, 5m, 1h, 4h)
 - [ ] Walk-forward backtesting module
 - [ ] Live trading integration via CCXT
 - [ ] Multi-asset portfolio management
@@ -333,12 +304,13 @@ MIT License - See [LICENSE](LICENSE) for details.
 ---
 
 ## Author
-
+Artur H.
+For more details, info and source code: arturs.hodarcovs@gmail.com
 Developed as a demonstration of advanced ML/RL techniques applied to quantitative finance.
 
 **Skills demonstrated:**
 - Deep Learning (PyTorch, Transformers, State Space Models)
-- Reinforcement Learning (A2C, GAE, Curiosity-driven Exploration)
+- Reinforcement Learning (PPO, A2C, GAE, Curiosity-driven Exploration)
 - Financial Engineering (Options Greeks, Kelly Criterion, Risk Management)
 - Software Architecture (Modular design, Configuration management)
 - Data Engineering (API integration, Feature engineering, Time series)
