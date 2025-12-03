@@ -306,6 +306,7 @@ MIT License - See [LICENSE](LICENSE) for details.
 ## Author
 Artur H.
 For more details, info and source code: arturs.hodarcovs@gmail.com
+
 Developed as a demonstration of advanced ML/RL techniques applied to quantitative finance.
 
 **Skills demonstrated:**
