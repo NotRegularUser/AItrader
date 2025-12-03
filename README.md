@@ -278,8 +278,8 @@ f_safe = min(f*, max_dd / expected_loss)
 
 ## Future Roadmap
 
-- [+] PPO algorithm (more stable than A2C)
-- [+] Multi-timeframe hierarchical input (1m, 5m, 1h, 4h)
+[+] PPO algorithm (more stable than A2C)
+[+] Multi-timeframe hierarchical input (1m, 5m, 1h, 4h)
 - [ ] Walk-forward backtesting module
 - [ ] Live trading integration via CCXT
 - [ ] Multi-asset portfolio management
