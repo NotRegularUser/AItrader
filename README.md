@@ -77,14 +77,43 @@ The agent learns its own trading strategies through self-supervision rather than
 | **Kelly Sizing** | Optimal position sizing with drawdown constraints |
 | **ICM Curiosity** | Intrinsic motivation for exploration |
 | **Contrastive Learning** | Pattern clustering via InfoNCE loss |
+| **Multi-Timeframe (MTF)** | Hierarchical fusion of 5m, 15m, 1h, 4h contexts |
 
 ---
 
 ## Features
 
+### Multi-Timeframe (MTF) Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                   HIERARCHICAL MTF ENCODER                          │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│   4h TF ────→ [Encoder] ────┐                                       │
+│   (12 bars)                 │                                       │
+│                             ↓                                       │
+│   1h TF ────→ [Encoder] ───→ Cross-TF ───┐                          │
+│   (24 bars)                  Attention    │                         │
+│                                          ↓                          │
+│   15m TF ───→ [Encoder] ───→ Cross-TF ──→ Fusion ───→ Output        │
+│   (48 bars)                  Attention                              │
+│                                ↑                                    │
+│   5m TF ────→ [Encoder] ──────┘                                     │
+│   (128 bars)   + Mamba Backbone                                     │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+**Information Flow**: Higher timeframes (4h) provide macro context that flows down to lower timeframes (5m) via cross-attention, enabling the model to:
+- See the "bigger picture" while trading on short timeframes
+- Align short-term trades with longer-term trends
+- Avoid counter-trend entries during strong macro moves
+
 ### Data Pipeline
+- **Multi-timeframe OHLCV**: 5m, 15m, 1h, 4h aligned data from Binance
 - **Real-time Binance API** integration for OHLCV, funding rates, long/short ratios
-- **50+ engineered features**: RSI, MACD, Bollinger Bands, ADX, ATR, OBV
+- **50+ engineered features**: RSI, MACD, Bollinger Bands, ADX, ATR, OBV per timeframe
 - **Order flow analysis**: CVD (Cumulative Volume Delta), large trade detection
 - **Fibonacci retracement** levels with proximity scoring
 - **Triple barrier labeling** (Lopez de Prado methodology)
@@ -98,6 +127,7 @@ The agent learns its own trading strategies through self-supervision rather than
 
 ### Model Architecture
 - **Mamba-2.8B** backbone with selective state spaces
+- **Hierarchical MTF encoder** with cross-timeframe attention
 - **Cross-horizon attention** over 6 forecast horizons
 - **LSTM memory** for pattern persistence across episodes
 - **Causal head fusion** ensuring logical information flow
@@ -183,6 +213,12 @@ MambaSSMTrader/
 LEVERAGE = 100                    # 100x perpetual futures
 MIN_POSITION_USD = 100.0          # $100 minimum margin
 # → Notional: $10,000 - $30,000 per trade
+
+# Multi-Timeframe (MTF)
+USE_MTF = True                              # Enable multi-timeframe
+MTF_TIMEFRAMES = ["5m", "15m", "1h", "4h"]  # Timeframes to use
+MTF_CONTEXT_BARS = {"5m": 128, "15m": 48, "1h": 24, "4h": 12}
+MTF_USE_CROSS_TF_ATTENTION = True           # Cross-timeframe attention
 
 # Risk Management
 RISK_VOL_MIN_SL = 0.0015          # 0.15% min stop loss
